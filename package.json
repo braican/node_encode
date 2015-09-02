@@ -6,6 +6,10 @@
   "dependencies": {
     "copy-paste": "^1.1.3"
   },
+  "repository":{
+      "type": "git",
+      "url": "https://github.com/braican/node_encode"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "node_encode"
