@@ -1,22 +1,25 @@
 #!/usr/bin/env node
 
-var fs        = require("fs"),
-    copypaste = require("copy-paste"),
-    SVGO      = require("svgo"),
-    svgo      = new SVGO();
+const fs = require('fs');
+const copypaste = require('copy-paste');
+const SVGO = require('svgo');
+const svgo = new SVGO();
 
-if(!process.argv[2]){
-    console.log("need to include a file");
+const filePath = process.argv[2];
+
+if (!filePath) {
+    console.log('Please pass in a path to an SVG file.');
     return;
 }
-fs.readFile(process.argv[2], 'utf8', function(error, data){
-    if(error){
+
+fs.readFile(filePath, 'utf8', (error, data) => {
+    if (error) {
         return console.log(error);
     }
 
-    svgo.optimize(data, function(result) {
-        var encoded = encodeURIComponent( result.data );
+    svgo.optimize(data, { path: filePath }).then(result => {
+        const encoded = encodeURIComponent(result.data);
         copypaste.copy(encoded);
-        return console.log('copied');
-    }); 
+        return console.log('SVG encoded and copied to your clipboard.');
+    });
 });
